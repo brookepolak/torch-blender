@@ -34,7 +34,7 @@ class TorchBlender():
         if log_variable:
             grid_data = np.log10(uniform_grid[grid_variable].v)
             if variable_min != None:
-                variable_min - np.log10(variable_min)
+                variable_min = np.log10(variable_min)
         else:
             grid_data = (uniform_grid[grid_variable].v)
             
