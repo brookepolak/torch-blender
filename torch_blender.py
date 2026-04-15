@@ -1,8 +1,6 @@
 import openvdb as vdb
 import yt
 import numpy as np
-from amuse.io import *
-from amuse.units import units
 
 class TorchBlender():
     """
@@ -34,11 +32,11 @@ class TorchBlender():
         main_vdb_grid = vdb.FloatGrid()
         
         if log_variable:
-            grid_data = np.log10(uniform_grid[variable].v)
+            grid_data = np.log10(uniform_grid[grid_variable].v)
             if variable_min != None:
                 variable_min - np.log10(variable_min)
         else:
-            grid_data = (uniform_grid[variable].v)
+            grid_data = (uniform_grid[grid_variable].v)
             
         # normalize grid data to range (0,1)
         if norm_variable:
@@ -100,7 +98,10 @@ class TorchBlender():
         if self.part_file == None:
             print("WARNING: did not create star csv file, no amuse file specified.")
             return
-        
+
+        from amuse.io import read_set_from_file
+        from amuse.units import units
+		
         stars = read_set_from_file(self.part_file)
             # only include stars above mass_cut, be reasonable or blender will crash! 
         plot_stars_idx = stars.mass.value_in(units.MSun) >= mass_cut
