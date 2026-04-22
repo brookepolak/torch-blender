@@ -1,22 +1,16 @@
 FROM mambaorg/micromamba:latest
-
 USER root
 
-RUN apt-get update && apt-get install -y curl
+# Activate the base env for all subsequent RUN steps
+ARG MAMBA_DOCKERFILE_ACTIVATE=1
 
+# Install Python and dependencies (h5py can read AMUSE particle files)
 RUN micromamba install -y -n base -c conda-forge \
-    openvdb yt numpy h5py python=3.10 pip wheel setuptools
+    openvdb yt numpy h5py \
+    python=3.10 pip wheel setuptools \
+    && micromamba clean --all --yes
 
-RUN micromamba clean --all --yes
-
-# Install AMUSE for reading stellar data
-#RUN curl -L -O "https://github.com/amusecode/amuse/archive/refs/tags/v2025.9.0.tar.gz" && \
-#    tar xzf v2025.9.0.tar.gz && \
-#    cd amuse-2025.9.0 && \
-#    ./setup && \
-#    ./setup install framework
-
+# Set workdir
 WORKDIR /workspace
 
 CMD ["/bin/bash"]
-

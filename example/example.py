@@ -2,8 +2,8 @@
 datafilename = 'innMC/turbsph_hdf5_plt_cnt_0173'
 starfile = "innMC/stars0173.amuse"
 # output name
-outfilename = 'innMC/innMC.vdb' 
-staroutfile = "innMC/stars0173.csv"
+outfilename = 'example/example_gas.vdb' 
+staroutfile = "example/example_stars.vdb"
 
 # main vdb grid variable that sets voxel visibility
 field = ('flash','dens')
@@ -21,12 +21,12 @@ from torch_blender import TorchBlender
 
 tb = TorchBlender(datafilename, starfile)
 
-# create the vdb grid
+# create the gas vdb 
 tb.create_vdb(field, log_variable=True, variable_min=lower_limit, 
               extra_variables=extra_variables, outfile=outfilename)
 
-# create the stellar csv file
-tb.create_star_csv(mass_cut=10, outfile=staroutfile)
+# create the star vdb file
+tb.create_star_vdb(outfile=staroutfile)
 
 # ---------------------------------------------------
 # TODO : Creating many frames for a movie
@@ -43,6 +43,6 @@ tb.create_star_csv(mass_cut=10, outfile=staroutfile)
 #                 extra_variables=extra_variables, outfile=outfilename)
 
 #     # create the stellar csv file
-#     tb.create_star_csv(mass_cut=10, outfile=staroutfile)
+#     tb.create_star_vdb(outfile=staroutfile)
     
 #     del tb
